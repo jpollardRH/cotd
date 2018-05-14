@@ -1,7 +1,7 @@
 node {
   sh("hostname")
   sh("whoami")
-  sh("docker version")
+  sh("oc version")
   sh("kubectl version")
   sh("echo BRANCH_NAME=${env.BRANCH_NAME}")
   sh("echo BUILD_NUMBER=${env.BUILD_NUMBER}")
@@ -14,7 +14,8 @@ node {
 
   stage 'Build image'
     sh("cat ./etc/config/cotd.properties")
-    sh("docker build -t ${imageTag} .")
+    //sh("docker build -t ${imageTag} .")
+    sh("oc start-build cotd --from-dir . --follow")
   
   stage 'Deploy Application'
     switch (env.BRANCH_NAME) {  
